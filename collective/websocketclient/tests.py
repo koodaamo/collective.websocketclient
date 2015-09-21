@@ -40,7 +40,7 @@ def start_wss(port):
 class WebSocketServerFixture(Layer):
 
    def setUp(self):
-      self._wss_process = multiprocessing.Process(target=start_wss, args=(3898,))
+      self._wss_process = multiprocessing.Process(target=start_wss, args=(9000,))
       self._wss_process.start()
 
    def tearDown(self):
@@ -113,17 +113,17 @@ class TestWebSocketConfigImport(unittest.TestCase):
    def test_gs_import_settings_works(self):
       applyProfile(api.portal.get(), "collective.websocketclient:testing")
       cfg = queryUtility(IWebSocketConnectionConfig)
-      self.assertEqual((cfg.name, cfg.host, cfg.port), ("test", "127.0.0.1", 3898))
+      self.assertEqual((cfg.name, cfg.host, cfg.port), ("test", "127.0.0.1", 9000))
 
    def test_zcml_import_settings_works(self):
       context = xmlconfig.file('meta.zcml', collective.websocketclient)
       xmlconfig.string('''
          <configure xmlns:websocketclient="http://namespaces.plone.org/websocketclient">
-             <websocketclient:connection name="test" host="127.0.0.1" port="3898"/>
+             <websocketclient:connection name="test" host="127.0.0.1" port="9000"/>
          </configure>
       ''', context=context)
       cfg = queryUtility(IZCMLWebSocketConnectionConfig)
-      self.assertEqual((cfg.name, cfg.host, cfg.port), ('test', '127.0.0.1',3898))
+      self.assertEqual((cfg.name, cfg.host, cfg.port), ('test', '127.0.0.1',9000))
 
 
 class TestWebSocketConnectionConfiguration(unittest.TestCase):
@@ -133,18 +133,18 @@ class TestWebSocketConnectionConfiguration(unittest.TestCase):
    def test_profileconfigured_connection_creation(self):
       manager = queryUtility(IWebSocketConnectionManager)
       wsc_connection = manager.getConnection()
-      self.assertEqual((wsc_connection.host, wsc_connection.port), ('127.0.0.1',3898))
+      self.assertEqual((wsc_connection.host, wsc_connection.port), ('127.0.0.1',9000))
 
    def test_ZCMLconfigured_connection_creation(self):
       context = xmlconfig.file('meta.zcml', collective.websocketclient)
       xmlconfig.string('''
          <configure xmlns:websocketclient="http://namespaces.plone.org/websocketclient">
-             <websocketclient:connection name="test" host="127.0.0.1" port="3898"/>
+             <websocketclient:connection name="test" host="127.0.0.1" port="9000"/>
          </configure>
       ''', context=context)
       manager = queryUtility(IWebSocketConnectionManager)
       wsc_connection = manager.getConnection()
-      self.assertEqual((wsc_connection.host, wsc_connection.port), ('127.0.0.1',3898))
+      self.assertEqual((wsc_connection.host, wsc_connection.port), ('127.0.0.1',9000))
 
 
 class TestWebSocketConnection(unittest.TestCase):

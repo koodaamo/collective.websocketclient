@@ -3,6 +3,6 @@
   <connection>
     <name value="test" />
     <host value="127.0.0.1" />
-    <port value="3898" />
+    <port value="9000" />
   </connection>
 </object>
