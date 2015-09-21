@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <adapters/>
+ <utilities>
+  <utility
+     interface="collective.websocketclient.interfaces.IWebSocketConnectionConfig"
+     factory="collective.websocketclient.manager.WebSocketConnectionConfig"/>
+  <utility
+     interface="collective.websocketclient.interfaces.IWebSocketConnectionManager"
+     factory="collective.websocketclient.manager.WebSocketConnectionManager"/>
+</utilities>
+</componentregistry>

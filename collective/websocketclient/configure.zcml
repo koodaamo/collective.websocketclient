@@ -1,0 +1,46 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.websocketclient">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="collective.websocketclient"
+      directory="profiles/default"
+      description="Installs the collective.websocketclient package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="collective.websocketclient"
+      directory="profiles/testing"
+      description="Installs the collective.websocketclient package test setup"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+  <!-- -*- extra stuff goes here -*- -->
+
+ <adapter
+      factory=".exportimport.WebSocketClientConfigXMLAdapter"
+      provides="Products.GenericSetup.interfaces.IBody"
+      for=".interfaces.IWebSocketConnectionConfig Products.GenericSetup.interfaces.ISetupEnviron" />
+
+  <genericsetup:exportStep
+      name="websocketclient"
+      title="Websocket client configuration"
+      description="Export settings for websocket client integration."
+      handler="collective.websocketclient.exportimport.exportWebSocketClientSettings" />
+
+  <genericsetup:importStep
+      name="websocketclient"
+      title="Websocket client configuration"
+      description="Import settings for websocket client integration."
+      handler="collective.websocketclient.exportimport.importWebSocketClientSettings">
+    <depends name="componentregistry"/>
+  </genericsetup:importStep>
+
+</configure>

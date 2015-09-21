@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object name="websocketclient">
+  <connection>
+    <name value="test" />
+    <host value="127.0.0.1" />
+    <port value="3898" />
+  </connection>
+</object>
