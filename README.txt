@@ -1,6 +1,4 @@
 Introduction
 ============
 
-
-
-This product may contain traces of nuts.
+Send test messages via @@websocketsend view.
