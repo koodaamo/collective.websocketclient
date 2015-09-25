@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+import socket, logging
+
+from websocket._exceptions import WebSocketException
+
 from collective.websocketclient.interfaces import IWebSocketConnectionConfig
 from collective.websocketclient.interfaces import IWebSocketConnectionManager
 from collective.websocketclient.interfaces import IZCMLWebSocketConnectionConfig
@@ -6,10 +11,7 @@ from collective.websocketclient.local import getLocal
 from collective.websocketclient.local import setLocal
 from collective.websocketclient.client import WebSocketConnection
 
-import logging
-
 from persistent import Persistent
-from socket import error
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import implements
@@ -64,7 +66,7 @@ class WebSocketConnectionManager(object):
 
    def closeConnection(self, clearSchema=False):
       "close the current connection, if any"
-      logger.debug('closing connection')
+      logger.info('closing connection')
       conn = getLocal('connection')
       if conn is not None:
          conn.close()
@@ -75,22 +77,28 @@ class WebSocketConnectionManager(object):
 
       config = getUtility(IWebSocketConnectionConfig)
       conn = getLocal('connection')
-      if conn is not None:
+      if conn is not None and conn.active:
          logger.debug("returning existing websocket connection")
          return conn
 
       zcmlconfig = queryUtility(IZCMLWebSocketConnectionConfig)
       if zcmlconfig is not None:
          # use connection parameters defined in zcml...
-         logger.debug('opening connection to %s', zcmlconfig.host)
+         logger.info('opening new connection to %s:%i' % (zcmlconfig.host, zcmlconfig.port))
          conn = WebSocketConnection(zcmlconfig.name, zcmlconfig.host, zcmlconfig.port)
-         setLocal('connection', conn)
       elif config.host and config.port:
          # otherwise use connection parameters defined in control panel...
-         logger.debug('opening connection to %s', config.host)
+         logger.info('opening new connection to %s:%i' % (config.host, config.port))
          conn = WebSocketConnection(config.name, config.host, config.port)
-         setLocal('connection', conn)
 
+      try:
+         conn.connect()
+      except (socket.error, WebSocketException) as exc:
+         logger.warn("cannot connect to server: %s" % str(exc))
+         setLocal('connection', None)
+         return None
+
+      setLocal('connection', conn)
       return conn
 
 
