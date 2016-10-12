@@ -21,6 +21,8 @@ Code usage example::
          connection.send(msg)
          print self.connection.receive()
       except (WebSocketConnectionClosedException, socket.error):
-         # failed; if you want to retry, do so by first getting a new connection, ie. call manager.getConnection()
+      
+         # failed; if you want to retry, do so by first getting a new
+         # connection, ie. call manager.getConnection() again
          print "failure!"
   
