@@ -1,5 +1,11 @@
+import time
+
+from zope.component import getUtility
 from websocket import create_connection, setdefaulttimeout
 from websocket._exceptions import WebSocketConnectionClosedException
+
+from .interfaces import IWebSocketConnectionManager
+
 
 class WebSocketConnection():
 
@@ -9,7 +15,7 @@ class WebSocketConnection():
       self.name = name
       self.host = host
       self.port = port
-      self.timeout = timeout
+      self.timeout = timeout or self.TIMEOUT
       self.active = False
 
    def connect(self):
@@ -40,3 +46,21 @@ class WebSocketConnection():
 
    def settimeout(self, seconds):
       self.timeout = timeout
+
+
+def transmit(msg, mgr=None, conn=None):
+   "blocking sender that tries to reconnect upon failure"
+
+   connection = conn or (mgr or getUtility(IWebSocketConnectionManager)).getConnection()
+
+   try:
+      connection.send(msg)
+      return connection.receive()
+   except:
+      time.sleep(0.1)
+      connection = manager.getConnection()
+      try:
+         connection.send(msg)
+         return connection.receive()
+      except:
+         raise Exception("could not send/receive over websocket")
