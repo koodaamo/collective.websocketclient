@@ -8,6 +8,8 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <include package=".browser"/>
+
   <genericsetup:registerProfile
       name="default"
       title="collective.websocketclient"
@@ -23,16 +25,8 @@
       description="Installs the collective.websocketclient package test setup"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
 
-   <browser:page
-      name="websocketsend"
-      for="*"
-      permission="zope2.View"
-      class=".views.WebSocketSender"
-   />
-
- <adapter
+  <adapter
       factory=".exportimport.WebSocketClientConfigXMLAdapter"
       provides="Products.GenericSetup.interfaces.IBody"
       for=".interfaces.IWebSocketConnectionConfig Products.GenericSetup.interfaces.ISetupEnviron" />
@@ -48,7 +42,7 @@
       title="Websocket client configuration"
       description="Import settings for websocket client integration."
       handler="collective.websocketclient.exportimport.importWebSocketClientSettings">
-    <depends name="componentregistry"/>
+     <depends name="componentregistry"/>
   </genericsetup:importStep>
 
 </configure>
