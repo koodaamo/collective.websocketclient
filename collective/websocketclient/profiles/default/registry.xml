@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<registry>
+  <records interface="collective.websocketclient.interfaces.IWebSocketConnectionSchema"/>
+  <value key="name"></value>
+  <value key="host"></value>
+  <value key="name"></value>
+</registry>
