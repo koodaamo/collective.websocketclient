@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.2rc0'
+version = '1.2rc1'
 
 setup(name='collective.websocketclient',
       version=version,
