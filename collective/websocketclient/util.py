@@ -22,15 +22,16 @@ def transmit(msg):
       connection.send(msg)
       return connection.receive()
 
+
 def call(realm, method, *args, **kwargs):
    "send a websocket JSON message that can be translated to a WAMP RPC call by wwproxy"
    msg = {"realm":realm, "method":method, "args":args, "kwargs":kwargs}
    try:
       response = transmit(json.dumps(msg))
    except Exception as exc:
-      print(exc.__class__.__name__ + ": " + str(exc))
       return (501, str(exc))
    return json.loads(response)
+
 
 def publish(realm, event, *args, **kwargs):
    "send a websocket JSON message that can be translated to a WAMP PUBSUB event by wwproxy"
