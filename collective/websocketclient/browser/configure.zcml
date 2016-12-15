@@ -11,4 +11,16 @@
       class=".views.WebSocketSender"
    />
 
+   <browser:page
+       name="websocket-controlpanel"
+       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+       permission="cmf.ManagePortal"
+       class="..controlpanel.WebsocketConnectionControlPanel"
+    />
+
+  <browser:resourceDirectory
+      name="collective.websocketclient"
+      directory="static"
+      />
+
 </configure>
