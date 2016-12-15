@@ -4,7 +4,8 @@ from Products.Five import BrowserView
 
 from websocket._exceptions import WebSocketConnectionClosedException
 
-from .interfaces import IWebSocketConnectionManager
+from ..interfaces import IWebSocketConnectionManager
+
 
 class WebSocketSender(BrowserView):
 
