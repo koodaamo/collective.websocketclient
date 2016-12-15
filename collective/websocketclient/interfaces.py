@@ -11,7 +11,8 @@ class IWebSocketConnectionSchema(Interface):
       description=_(
          'help_name',
          default=u'The name of the websocket server to be used.'
-      )
+      ),
+      required = True
    )
 
    host = TextLine(
@@ -19,7 +20,8 @@ class IWebSocketConnectionSchema(Interface):
       description=_(
          'help_host',
          default=u'The host name of the websocket server to be used.'
-      )
+      ),
+      required = True
    )
 
    port = Int(
@@ -27,7 +29,8 @@ class IWebSocketConnectionSchema(Interface):
       description=_(
          'help_port',
          default=u'The port of the websocket server to be used.'
-      )
+      ),
+      required = True
    )
 
 
